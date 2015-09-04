@@ -16,18 +16,21 @@ from accounts.authentication import (
         PERSONA_VERIFY_URL, DOMAIN, PersonaAuthenticationBackend
 )
 
+@patch ("accounts.authentication.requests.post")
 class AuthenticateTest(TestCase):
+    
+    def setUp(self):
+        self.backend = PersonaAuthenticationBackend()
 
-    @patch ("accounts.authentication.requests.post")
     def test_send_assertion_to_mozilla_with_domain(self, mock_post):
-        backend = PersonaAuthenticationBackend()
-        backend.authenticate("an assertion")
+        self.backend.authenticate("an assertion")
         mock_post.assert_called_once_with(
                 PERSONA_VERIFY_URL,
                 data={"assertion": "an assertion", "audience":DOMAIN}
         )
 
-#global variables
-
-#class define
-
+    def test_returns_none_if_response_errors(self, mock_post):
+        mock_post.return_value.ok = False
+        backend = PersonaAuthenticationBackend()
+        user = self.backend.authenticate("an assertion")
+        self.assertIsNone(user)
