@@ -13,11 +13,11 @@ from unittest.mock import patch
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
+User = get_user_model()
 from accounts.authentication import (
         PERSONA_VERIFY_URL, DOMAIN, PersonaAuthenticationBackend
 )
 
-User = get_user_model()
 
 @patch ("accounts.authentication.requests.post")
 class AuthenticateTest(TestCase):
@@ -58,3 +58,20 @@ class AuthenticateTest(TestCase):
         found_user = self.backend.authenticate("an assertion")
         new_user = User.objects.get(email="a@b.com")
         self.assertEqual(found_user, new_user)
+
+class GetUserTest(TestCase):
+
+    def test_gets_user_by_email(self):
+        backend = PersonaAuthenticationBackend()
+        other_user = User(email="other@user.com")
+        other_user.username="otheruser"
+        other_user.save()
+        desired_user = User.objects.create(email="a@b.com")
+        found_user=backend.get_user("a@b.com")
+        self.assertEqual(found_user, desired_user)
+
+    def test_returns_none_if_no_user_with_that_email(self):
+        backend = PersonaAuthenticationBackend()
+        self.assertIsNone(
+                backend.get_user("a@b.com")
+                )
