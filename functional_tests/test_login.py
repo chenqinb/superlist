@@ -49,7 +49,7 @@ class classTest(FunctionalTest):
 
         self.wait_for_element_with_id("id_logout")
         navbar = self.browser.find_element_by_css_selector(".navbar")
-        self.assertIn("pingfanrenweilai@null.com", navbar.text)
+        self.assertIn("pingfanrenweilai@126.com", navbar.text)
 
 #function define
 

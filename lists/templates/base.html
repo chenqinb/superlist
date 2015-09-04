@@ -25,7 +25,7 @@
 					<h1>{% block header_text %}{% endblock %}</h1>
 					<form method="post" action="{% block form_action %}{% endblock %}">
                         {{ form.text }}
-						{% csrf_token %}
+			{% csrf_token %}
                     {% if form.errors %}
                         <div class="form-group has-error">
                             <div class="help-block">{{ form.text.errors }}</div>
