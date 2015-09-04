@@ -30,9 +30,18 @@ class MyListTest(FunctionalTest):
         session.save()
 
         self.browser.get(self.server_url + "/404_no_such_url/")
-        self.browser.add_cookies(dict(
+        self.browser.add_cookie(dict(
             name = settings.SESSION_COOKIE_NAME,
             value = session.session_key,
             path = "/",
         ))
 
+    def test_logged_in_users_list_are_save_as_my_lists(self):
+        email = "pingfanrenweilai@126.com"
+
+        self.browser.get(self.server_url)
+        self.wait_to_be_logged_out(email)
+
+        self.create_pre_authenticated_session(email)
+        self.browser.get(self.server_url)
+        self.wait_to_be_logged_in(email)
