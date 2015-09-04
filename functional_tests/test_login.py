@@ -38,7 +38,7 @@ class classTest(FunctionalTest):
         self.browser.get(self.server_url)
         self.browser.find_element_by_id("id_login").click()
 
-        self.switch_to_new_window("Mozilla persona")
+        self.switch_to_new_window("Mozilla Persona")
 
         self.browser.find_element_by_id(
                 "authentication_email"
