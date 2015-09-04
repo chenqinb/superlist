@@ -42,7 +42,7 @@ class classTest(FunctionalTest):
 
         self.browser.find_element_by_id(
                 "authentication_email"
-                ).send_keys("pingfanrenweilai@null.com")
+                ).send_keys("pingfanrenweilai@126.com")
 
         self.browser.find_element_by_tag_name("button").click()
         self.switch_to_new_window("To-Do")
